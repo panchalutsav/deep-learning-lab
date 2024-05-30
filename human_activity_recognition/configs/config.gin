@@ -1,0 +1,70 @@
+
+# model1_LSTM
+model1_LSTM.lstm_cells = 128
+model1_LSTM.num_lstm=2
+model1_LSTM.dense_units=16
+model1_LSTM.lstm_cells=128
+model1_LSTM.dropout_rate=0.35
+
+# model_bidirectional_LSTM
+model_bidirectional_LSTM.lstm_cells = 32
+model_bidirectional_LSTM.num_lstm=3
+model_bidirectional_LSTM.dense_units=16
+model_bidirectional_LSTM.dropout_rate=0.35
+
+#model1_GRU function
+model1_GRU.num_gru = 3
+model1_GRU.gru_cells = 32
+model1_GRU.dense_units = 16
+model1_GRU.dropout_rate = 0.35
+
+#1D convolutional
+model1D_Conv.num_conv_layers = 2
+model1D_Conv.filters = 64
+model1D_Conv.kernel_size = 3
+model1D_Conv.dense_units = 16
+model1D_Conv.dropout_rate = 0.35
+
+# tfrecords
+make_tfrecords.data_dir = "/home/data/HAPT_dataset/RawData/"
+make_tfrecords.target_dir = "./tfrecords_hapt/"
+make_tfrecords.window_length = 100
+make_tfrecords.shift = 50
+make_tfrecords.visualise_expt = 1
+
+# tfrecords RW har 2016
+make_tfrecords_rwhar.data_dir = "/home/data/realworld2016_dataset/"
+make_tfrecords_rwhar.target_dir = "./tfrecords_rwhar/chest/"  
+make_tfrecords_rwhar.window_length = 250
+make_tfrecords_rwhar.shift = 125
+
+prepare.batch_size = 500
+prepare.caching = False
+prepare.shuffle_buffer = 5000
+prepare.generate_class_weights = True
+
+#Trainer
+Trainer.total_steps = 2000
+Trainer.log_interval = 50
+Trainer.ckpt_interval = 50
+Trainer.learning_rate = 0.001
+
+#Ensemble learning
+EnsembleModel.models = ['model_bidirectional_LSTM', 
+                            'model1_LSTM', 
+                            'model1_GRU', 
+                            'model1D_Conv', 
+                            ]
+EnsembleModel.ckpt_paths = ['/home/RUS_CIP/st184914/dl-lab-23w-team10/human_activity_recognition/results/hapt/biDirectionalLSTMmodel/run_2024-02-09T11-53-52-342085/ckpts',
+                                '/home/RUS_CIP/st184914/dl-lab-23w-team10/human_activity_recognition/results/hapt/LSTMmodel/run_2024-02-09T11-55-39-967277/ckpts',
+                                '/home/RUS_CIP/st184914/dl-lab-23w-team10/human_activity_recognition/results/hapt/GRUmodel/run_2024-02-09T12-06-03-775262/ckpts',
+                                '/home/RUS_CIP/st184914/dl-lab-23w-team10/human_activity_recognition/results/hapt/1dConvolutionModel/run_2024-02-09T12-10-55-509520/ckpts',
+                                ]
+EnsembleModel.type = 'soft'
+
+# log wandb
+evaluate.log_wandb=True
+Trainer.log_wandb=True
+
+# evaluate
+# evaluate.ckpt_path = ""

@@ -1,0 +1,91 @@
+# Architectures
+
+#Transfer Model Parameters
+transfer_model.input_shape = (256,256,3)
+transfer_model.dense_units = 10
+transfer_model.dropout_rate = 0.3
+#transfer_model.base_model_name = 'DenseNet121'
+
+# cnn_1
+cnn_1.input_shape    = (256,256,3)
+cnn_1.filters        = (4, 8, 16, 32)
+cnn_1.kernel_size    = 3
+cnn_1.strides        = (1, 1, 1, 1)
+cnn_1.pool_size      = 3
+cnn_1.dropout_rate   = 0.3
+cnn_1.dropout_blocks = (1, 2)
+cnn_1.maxpool_blocks = (1, 2)
+
+# cnn_se Model Parameters
+##layers are as given (0, 1, 2, 3)
+cnn_se.input_shape = (256,256,3)
+cnn_se.filters = (4, 8, 16, 32)
+cnn_se.kernel_size = 3
+cnn_se.strides = (1, 1, 1, 1, 1, 1, 1, 1, 1)
+cnn_se.pool_size = 3
+cnn_se.dropout_rate = 0.30
+#cnn_se.batch_norm_blocks = (0,)
+cnn_se.dropout_blocks = (1, 2)
+cnn_se.maxpool_blocks = (1, 2)
+cnn_se.SE_blocks = True
+
+# Training
+Trainer.total_steps = 30000
+Trainer.log_interval = 13
+Trainer.ckpt_interval = 50
+Trainer.learning_rate = 0.0012
+#Trainer.ckpt_path = 'home/RUS_CIP/st184914/dl-lab-23w-team10/experiments/run_2023-12-05T11-34-02-793743/ckpts'
+TransferTrainer.coarse_learning_rate = 0.001
+TransferTrainer.fine_learning_rate = 0.0002
+TransferTrainer.coarse_num_steps = 100
+TransferTrainer.fine_num_steps = 3000
+TransferTrainer.layers_to_tune = 50
+
+# Input pipeline
+load.name = 'idrid'
+load.data_dir = '/home/data/IDRID_dataset/'
+preprocess.img_height = 256
+preprocess.img_width = 256
+prepare.batch_size = 32
+prepare.caching = False
+prepare.shuffle_buffer = 400
+prepare.to_augment = True
+apply_randomly.p=0.35
+
+# TF Records
+make_tfrecords.data_dir = '/home/data/IDRID_dataset/'
+make_tfrecords.target_dir = './tfrecords_data/'
+preprocess_image.with_clahe = False
+preprocess_image.with_bens = False
+
+#Deep Visu
+DeepVisualize.target_dir = './'
+#DeepVisualize.chkpt = ''
+DeepVisualize.layer_name = 'activation_3'
+DeepVisualize.image_list_train = [5,6,7,8]
+DeepVisualize.image_list_test = [15,57,87,32]
+GradCam.class_idx = 1
+
+# Evaluation checkpoint path
+# evaluate.ckpt_path = "/home/RUS_CIP/st184584/dl-lab-23w-team10/experiments/run_2023-12-14T11-41-13-221007/ckpts"
+
+#Ensemble learning
+EnsembleModel.models = ['cnn_se', 
+                            'cnn_1', 
+                            'DenseNet121', 
+                            'InceptionV3', 
+                            'InceptionResnet'
+                            ]
+EnsembleModel.ckpt_paths = ['/home/RUS_CIP/st184914/dl-lab-23w-team10/experiments/run_2023-12-17T14-33-38-798134/ckpts',
+                                '/home/RUS_CIP/st184584/dl-lab-23w-team10/experiments/run_2023-12-13T20-55-13-184676/ckpts',
+                                '/home/RUS_CIP/st184584/dl-lab-23w-team10/experiments/run_2023-12-14T11-41-13-221007/ckpts',
+                                '/home/RUS_CIP/st184914/dl-lab-23w-team10/experiments/run_2023-12-17T12-21-21-868527/ckpts',
+                                '/home/RUS_CIP/st184914/dl-lab-23w-team10/experiments/run_2023-12-17T13-23-51-249155/ckpts'
+                                ]
+EnsembleModel.input_shape = (256,256,3)
+EnsembleModel.type = 'hard'
+
+# wandb logging
+evaluate.log_wandb = True
+Trainer.log_wandb = True
+#DeepVisualize.log_wandb = True

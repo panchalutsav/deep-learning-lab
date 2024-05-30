@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">har</string>
+    <string name="init_act">waiting for sensor...</string>
+    <string name="init_prob">loading probabilities...</string>
+</resources>

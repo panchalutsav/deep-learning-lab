@@ -1,0 +1,96 @@
+# Architectures
+
+#Transfer Model Parameters
+transfer_model.input_shape = (256,256,3)
+transfer_model.filters = 8
+transfer_model.dense_units = 10
+transfer_model.dropout_rate = 0.3
+transfer_model.base_model_name = 'DenseNet121'
+
+##cnn_se Model Parameters ---- 80+% with SE_blocks , bens alone
+##20000 steps but this number of steps can be reduced looking at the validation loss plateau
+##layers are as given (0, 1, 2, 3)
+cnn_se.input_shape    = (256,256,3)
+cnn_se.filters        = (4, 8, 16, 32)
+cnn_se.kernel_size    = 3
+cnn_se.strides        = (1, 1, 1, 1, 1, 1, 1, 1, 1)
+cnn_se.pool_size      = 3
+cnn_se.dropout_rate   = 0.30
+#cnn_se.batch_norm_blocks = (0,)
+cnn_se.dropout_blocks = (1, 2)
+cnn_se.maxpool_blocks = (1, 2)
+cnn_se.SE_blocks       = True
+
+##cnn_1 Model Parameters ---- 73-75% test accuracy on bens-clahe, 75%-79% on bens alone both 5000 steps, 82% without batch_normalisation 7000 steps
+##layers are as given (0, 1, 2, 3)
+cnn_1.input_shape    = (256,256,3)
+cnn_1.filters        = (4, 8, 16, 32)
+cnn_1.kernel_size    = 3
+cnn_1.strides        = (1, 1, 1, 1)
+cnn_1.pool_size      = 3
+cnn_1.dropout_rate   = 0.3
+cnn_1.dropout_blocks = (1, 2)
+cnn_1.maxpool_blocks = (1, 2)
+
+
+# Layers
+vgg_block.kernel_size = (3, 3)
+
+# Training
+Trainer.total_steps = 30000
+Trainer.log_interval = 13
+Trainer.ckpt_interval = 50
+Trainer.learning_rate = 0.001
+#Trainer.total_steps = 1500
+#Trainer.log_interval = 13
+#Trainer.ckpt_interval = 50
+#Trainer.learning_rate = 0.0003
+#Trainer.ckpt_path = 'home/RUS_CIP/st184914/dl-lab-23w-team10/experiments/run_2023-12-05T11-34-02-793743/ckpts'
+TransferTrainer.coarse_learning_rate = 0.01
+TransferTrainer.fine_learning_rate = 0.0003
+TransferTrainer.coarse_num_steps = 2000
+TransferTrainer.fine_num_steps = 2000
+TransferTrainer.layers_to_tune = 300
+
+
+
+# Input pipeline
+load.name = 'idrid'
+#load.data_dir = 'C:/Users/Gautham/GIT/dl-lab-23w-team10/datasets/IDRID_dataset'
+load.data_dir = '/home/data/IDRID_dataset/'
+#load.data_dir = 'A:\\study\\INFOTECH\\SEM_3\\DL-lab\\dl-lab-23w-team10\\datasets\\IDRID_dataset'
+preprocess.img_height = 256
+preprocess.img_width = 256
+prepare.batch_size = 32
+prepare.caching = False
+prepare.shuffle_buffer = 400
+prepare.to_augment = True
+apply_randomly.p=0.35
+
+# TF Records
+make_tfrecords.data_dir = '/home/data/IDRID_dataset/'
+#make_tfrecords.data_dir = 'C:/Users/Gautham/GIT/dl-lab-23w-team10/datasets/IDRID_dataset/'
+#make_tfrecords.target_dir = './tfrecords_data/'
+make_tfrecords.target_dir = './tfrecords_data_grahams/'
+#make_tfrecords.target_dir = './tfrecords_data_grahams_30'
+#make_tfrecords.target_dir = './tfrecords_data_grahams_clahe/'
+#make_tfrecords.target_dir = './tfrecords_data_clahe'
+preprocess_image.with_clahe = False
+preprocess_image.with_bens = True
+
+#Deep Visu
+DeepVisualize.target_dir = './'
+#DeepVisualize.chkpt = '/home/RUS_CIP/st184914/dl-lab-23w-team10/experiments/run_2023-11-29T13-41-48-991091/ckpts'
+DeepVisualize.layer_name = 'activation_3'
+DeepVisualize.image_list_train = [5,6,7,8]
+DeepVisualize.image_list_test = [15,57,87,32]
+GradCam.class_idx = 1
+
+# Evaluation checkpoint path
+#evaluate.ckpt_path = #your checkpoint path here
+
+# wandb logging
+evaluate.log_wandb = True
+Trainer.log_wandb = True
+DeepVisualize.log_wandb = True
+
