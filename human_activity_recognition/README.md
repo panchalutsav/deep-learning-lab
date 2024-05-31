@@ -39,7 +39,7 @@ make_tfrecords.visualise_expt = 1
 ```
 The visualisation of experiment number 1 is shown below.
 
- ![visualise_har](https://media.github.tik.uni-stuttgart.de/user/7666/files/76819a11-8bb9-46c5-b7da-b15c0795887f)
+ ![visualise_har](img1.png)
 
 
 ## Models  
@@ -127,7 +127,7 @@ python3 main.py --train --eval --model_name "model1_LSTM" --hapt --tflite
 We have also implemented an Android Application which detects the real time activites. The dataset used to develop this application is HAR dataset. The source code of the project can be found in [Har App ](/har_app/har2/) directory.  
 We've used the model trained on Real World (HAR) dataset specifically for the chest bodypart which gave us the highest result.    
 Here's a screenshot of the application.  
-<img src = "https://github.tik.uni-stuttgart.de/iss/dl-lab-23w-team10/blob/develop_utsav/human_activity_recognition/android_ss2.jpg" width = "250" height="500" />
+<img src = "android_ss2.jpg" width = "250" height="500" />
 
 
 
