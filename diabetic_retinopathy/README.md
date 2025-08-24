@@ -1,9 +1,19 @@
-## Team10
-- Gautham Mohan (st184914)
-- Utsav Panchal (st184584)
-
 ## Diabetic Retinopathy Detection
 
+Diabetic Retinopathy (DR) is a diabetes-related complication that affects the retina and can lead to vision loss if left untreated. Early detection is crucial for timely treatment. This project aims to develop a deep learning model to automatically detect and classify the severity of diabetic retinopathy from retinal fundus images.
+
+## Features  
+- Multiple image preprocessing options: Original, Bens, CLAHE, or Bens+CLAHE.
+- CNN Models with Squeeze-and-Excitation blocks (**cnn_se**) for improved feature learning.  
+- Transfer learning models (**DenseNet121, InceptionV3, InceptionResnet**).   
+- Ensemble learning with hard/soft voting.  
+- Hyperparameter sweeps using WandB.  
+- Deep visualizations with Grad-CAM for interpretability.
+
+## Dataset
+- **Indian Diabetic Retinopathy Image Dataset (IDRiD)**: Retinal fundus images labeled for DR severity.  
+
+ ## Run the code  
 To run the code you can add different flags inside the batch.sh file. To simply train and evaluate a cnn_se model.
 
 ```
