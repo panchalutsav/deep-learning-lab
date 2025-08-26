@@ -1,7 +1,3 @@
-# Team10
-- Gautham Mohan (st184914)
-- Utsav Panchal (st184584)
-
 # Human Activity Recognition 
 Human Activity Recognition (HAR) is a problem that is an active research field in pervasive
 computing. An HAR system has the main goal of analyzing human activities by observing
